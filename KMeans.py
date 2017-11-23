@@ -16,11 +16,7 @@ class KMeans:
         self.k = k
         print("kmeans clustering...")
 
-
     def cosine_similarity(self, v1, v2):
-       # v1 = vec1['V']
-       # v2 = vec2['V']
-
         sum_v1 = 0
         sum_v2 = 0
         product_multiplation = 0
@@ -57,9 +53,9 @@ class KMeans:
     def set_new_centroids(self):
         self.centroids = []
         for center_x in range(self.k):
-            data_points_x = [d['V'] for d in list(filter(lambda x: x['C'] == center_x, self.clusters))]
-            centroid_x = self.average_data_points(data_points_x)
-            self.centroids.append(centroid_x)
+            data_points_x = [d['V'] for d in list(filter(lambda x: x['C'] == center_x, self.clusters))]   #kümeye ait noktaları al
+            centroid_x = self.average_data_points(data_points_x)                                          # noktaların ortalamalarını al
+            self.centroids.append(centroid_x)                                                             # yeni merkez olarak ekle
 
     def fit(self, vector=None):
         cluster = []
@@ -70,7 +66,7 @@ class KMeans:
             for term in vector[v]:
                 tfidf_list.append(vector[v][term]['tfidf'])
 
-            point_dict = {'D':point_count, 'C':0, 'V': tfidf_list}
+            point_dict = {'D': point_count, 'C': 0, 'V': tfidf_list}
 
             point_count += 1
             cluster.append(point_dict)
@@ -81,13 +77,14 @@ class KMeans:
         temp_clusters = copy.deepcopy(self.clusters)
 
         count = 0
-        cluster_changed = False
 
         while count < self.max_iteration:
             cluster_changed = False
+
             while temp_clusters:                         # tüm elemanları dolaş
-                data_point = temp_clusters.pop()
-                min_distance = self.cosine_similarity(data_point['V'], self.centroids[0])
+                data_point = temp_clusters.pop()         # listedeki elemanı al ve listeden sil
+
+                min_distance = self.cosine_similarity(data_point['V'], self.centroids[0])   # ilk kümeye uzaklığı hesapla
                 min_distance_center = 0
                 center_count = 0
 
@@ -98,7 +95,7 @@ class KMeans:
                         min_distance = distance
                         min_distance_center = center_count
 
-                if data_point['C'] != min_distance_center:
+                if data_point['C'] != min_distance_center:                           # noktanın min distance lı kümesi değiştiyse
                     self.clusters.remove(data_point)
                     data_point['C'] = min_distance_center
                     self.clusters.append(data_point)

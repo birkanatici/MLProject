@@ -1,12 +1,19 @@
 import codecs
 import os
 
+import requests
+
+
+def stemmer(doc):
+    url = 'http://localhost:4027/service-trmorphology/annotate/Analyze'  # Set destination URL here
+    paramaters = {'input': doc}
+    r = requests.get(url, params=paramaters)
+    r.encoding = "utf-8"
+    return " ".join(r.text.split())  # boşluk varsa kaldır
+
+
 root_path = "C:\\Users\\birkan\\PycharmProjects\\TextLearning\\"
-
-#news_category = os.listdir(root_path+"news")  #news içindeki klasörleri al
 news_category = ["ekonomi", "kultur-sanat", "saglik", "siyaset", "spor", "teknoloji"]
-
-
 
 
 def read_corpus_from_file():
