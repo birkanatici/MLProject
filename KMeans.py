@@ -111,4 +111,7 @@ class KMeans:
             if not cluster_changed:
                 break
 
+        for centroid in self.centroids:
+            print(centroid)
+
         return self.clusters, self.centroids

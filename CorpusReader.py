@@ -24,7 +24,7 @@ def read_corpus_from_file():
     for dir in news_category:
         docs = os.listdir(root_path + "news/" + dir + "/processed/") #kategori içinden dosyaları al
         #print(dir +" kategorisi: ")
-        for doc in docs[:100]:
+        for doc in docs:
             doc_path = root_path + "news/" + dir + "/processed/" + doc
             news = ""
             with codecs.open(doc_path, 'r', encoding='utf8') as file:
